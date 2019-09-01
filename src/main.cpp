@@ -1,8 +1,8 @@
-/* quark -- quark text editor.
- * Small, yet functionable and efficient text editor for everyday use.
- *
- * 
- * */
+// quark -- quark text editor.
+// Small, yet functionable and efficient text editor for everyday use.
+//
+// 
+// 
 
 
 
@@ -20,40 +20,18 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-using terminal::Term_mode;
+using terminal::Editor;
 
 // global since its destructor 
 // should be called after the program exits
-// we don't catch the excepion now
-Term_mode term_attr;
+Editor editor{};
 
 int main() {
 
-    
-    try {
-        term_attr.enable_raw(); // put terminal in raw mode
-    }
-    catch (errcode_excep& excep) {
-        c_exception::die(excep);
-    }
-
     while (1) {
-        
-        char c = 0;
-        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
-            c_exception::die(errno, std::string(__func__));
-
-        if (c == 'q') break;
-        
-        if (iscntrl(c)) {
-            printf("%d\r\n", c);
-        } 
-        else {
-            printf("%d ('%c')\r\n", c, c);
-        }
+        editor.refresh_screen();
+        editor.process_key_press();
     }
-  
-
     
     return 0;
 }
