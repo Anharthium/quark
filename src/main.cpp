@@ -4,11 +4,9 @@
 // 
 // 
 
-
-
-
 #include <iostream>
 #include <string>
+#include <ncurses.h>
 #include <cstring>
 #include <ctype.h>
 #include <errno.h>
@@ -20,18 +18,6 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-using terminal::Editor;
-
-// global since its destructor 
-// should be called after the program exits
-Editor editor{};
-
 int main() {
 
-    while (1) {
-        editor.refresh_screen();
-        editor.process_key_press();
-    }
-    
-    return 0;
 }

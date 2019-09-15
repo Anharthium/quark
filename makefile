@@ -13,7 +13,7 @@ CFLAGS = -std=c++11 -Wall
 MACROS = 
 
 # link external libraries
-LDLIB = 
+LDLIB = -lncurses 
 
 # source directory
 SRCDIR = src
