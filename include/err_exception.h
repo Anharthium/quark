@@ -13,7 +13,6 @@ namespace c_exception
     // custom exception class
     class errcode_excep: public std::exception {
     
-    
     public:
         int e_no;          // error code
         std::string e_msg; // error message
