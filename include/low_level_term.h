@@ -60,12 +60,15 @@ namespace quark
         void write(char c, int y, int x);
         void write(char c);
         void mv_coord(int new_y, int new_x);
+        void draw_tildes();
     };
 
     class Ed_text : public Window {
-    // class representing text portion of editor
+    // class representing the text portion of editor
+    
     private:
-        std::string buffer; 
+        std::string buffer; // buffer to hold text written in the editor 
+                            // before writing it out to secondary memory
     public:
         Ed_text(const struct Window_attr & w_attr);
         ~Ed_text();

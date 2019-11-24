@@ -15,6 +15,7 @@ namespace quark {
 Window::Window(const struct Window_attr & w_attr) {
     // construct window with specified attributes
     
+    this->w_attr = w_attr; // copy to private data member 
     raw();     // disable line buffering; enable raw mode
     noecho();  // don't echo
      
@@ -34,7 +35,8 @@ Window::~Window() {
 WINDOW* Window::create_win(const struct Window_attr & w_attr) {
     // function to create window with specified attributes 
     // and return pointer to structure associated with that 
-    // window
+    // window.
+
     WINDOW* curr_win = newwin(w_attr.w_h, w_attr.w_w, w_attr.w_sy, w_attr.w_sx);
     //box(curr_win, 0, 0); // border with default char for vert and hor lines
     wrefresh(curr_win);  // show that window
@@ -45,7 +47,7 @@ void Window::destroy_win() {
     // function to delete the current window and free any 
     // resources acquired
 
-    // The parameters taken are 
+    // The parameters taken (for wborder func.) are 
 	// 1. win: the window on which to operate
 	// 2. ls: character to be used for the left side of the window 
 	// 3. rs: character to be used for the right side of the window 
@@ -61,7 +63,7 @@ void Window::destroy_win() {
 }
 
 void Window::write(char c, int y, int x) {
-    // write a char to to coordinates y and x; 
+    // write a char on the coordinates y and x; 
     // advance coordinates y and x
     mvwaddch(win, y, x, c);
     wrefresh(win);
@@ -76,10 +78,25 @@ void Window::write(char c) {
 
 void Window::mv_coord(int new_y, int new_x) {
     // move current window coordinates to new_y and new_x
+    wmove(win, new_y, new_x); // move to mentioned cursor position
+    wrefresh(win);
 }
+
+void Window::draw_tildes() {
+    // draw tildes on the first 
+    // col of all the empty portion of the editor
+    
+    for (int i = cw_y; i < w_attr.w_h; ++i) {
+        write('~', i, 0);
+    }
+    mv_coord(cw_y, cw_x); // move to previous cursor position
+}
+
+
 
 Ed_text::Ed_text(const struct Window_attr & w_attr): Window(w_attr) {
     buffer = '\0';
+    draw_tildes();
 }
 
 Ed_text::~Ed_text() {
